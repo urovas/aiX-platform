@@ -1,0 +1,28 @@
+{
+  "providers": {
+    "ollama": {
+      "baseUrl": "http://127.0.0.1:11434",
+      "api": "ollama",
+      "models": [
+        {
+          "id": "qwen:72b",
+          "name": "Qwen 72B 传感器噪声模拟器",
+          "reasoning": true,
+          "input": [
+            "text",
+            "image"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 32768,
+          "maxTokens": 4096,
+          "description": "模拟摄像头/雷达/激光雷达在恶劣环境下的感知降级"
+        }
+      ]
+    }
+  }
+}

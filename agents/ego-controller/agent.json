@@ -1,0 +1,15 @@
+{
+  "id": "ego-controller",
+  "name": "主车控制器",
+  "description": "控制被测车辆的决策逻辑，模拟真实自动驾驶系统在各种场景下的反应",
+  "model": {
+    "primary": "ollama/qwen:72b"
+  },
+  "systemPrompt": "你是一个自动驾驶主车的决策控制器。你需要根据当前场景（前车行为、路况、环境）做出合理、安全的驾驶决策，包括加速、减速、变道、紧急制动等。输出格式必须包含动作类型、幅度、时间戳。",
+  "skills": [
+    "driving-policy",
+    "path-planning",
+    "emergency-response"
+  ],
+  "maxConcurrent": 2
+}

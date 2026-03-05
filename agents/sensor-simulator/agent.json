@@ -1,0 +1,16 @@
+{
+  "id": "sensor-simulator",
+  "name": "传感器噪声模拟器",
+  "description": "模拟摄像头/雷达/激光雷达在恶劣环境下的感知降级",
+  "model": {
+    "primary": "ollama/qwen:72b"
+  },
+  "systemPrompt": "你模拟各种传感器的噪声和降级：摄像头（模糊、眩光、雨滴遮挡）、激光雷达（点云稀疏、反射率异常）、雷达（多径干扰、杂波）。生成物理合理的传感器故障模式。",
+  "skills": [
+    "camera-noise",
+    "lidar-degradation",
+    "radar-interference",
+    "calibration-drift"
+  ],
+  "maxConcurrent": 1
+}

@@ -1,0 +1,77 @@
+{
+  "providers": {
+    "ollama": {
+      "baseUrl": "http://127.0.0.1:11434",
+      "api": "ollama",
+      "models": [
+        {
+          "id": "qwen:72b",
+          "name": "Qwen 72B Quant Engineer",
+          "reasoning": true,
+          "input": ["text", "image"],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 32768,
+          "maxTokens": 4096,
+          "description": "量化工程师专用模型，专注于交易策略开发、回测分析、风险管理、因子挖掘和投资组合优化"
+        },
+        {
+          "id": "qwen:7b",
+          "name": "Qwen 7B Quant Assistant",
+          "reasoning": true,
+          "input": ["text"],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 32768,
+          "maxTokens": 8192,
+          "description": "量化助手模型，用于快速原型开发和简单任务"
+        }
+      ]
+    },
+    "qwen-portal": {
+      "baseUrl": "https://portal.qwen.ai/v1",
+      "apiKey": "qwen-oauth",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "coder-model",
+          "name": "Qwen Coder for Quant",
+          "reasoning": false,
+          "input": ["text"],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 128000,
+          "maxTokens": 8192,
+          "description": "代码生成模型，用于量化策略编码和回测脚本开发"
+        },
+        {
+          "id": "vision-model",
+          "name": "Qwen Vision for Quant",
+          "reasoning": false,
+          "input": ["text", "image"],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 128000,
+          "maxTokens": 8192,
+          "description": "视觉模型，用于K线图分析和技术指标可视化"
+        }
+      ]
+    }
+  }
+}

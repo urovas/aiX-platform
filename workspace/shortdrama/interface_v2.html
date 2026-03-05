@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>短剧制作自动化工具 v2.0</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="container">
+        <header>
+            <h1>短剧制作自动化工具 v2.0</h1>
+            <p class="subtitle">AI驱动的短剧创作与分发平台</p>
+        </header>
+        
+        <nav class="nav-tabs" role="tablist">
+            <div id="tab-benchmark" class="nav-tab active" data-tab="benchmark" role="tab" aria-controls="benchmark" aria-selected="true">对标分析</div>
+            <div id="tab-breakdown" class="nav-tab" data-tab="breakdown" role="tab" aria-controls="breakdown" aria-selected="false">拆片分析</div>
+            <div id="tab-script" class="nav-tab" data-tab="script" role="tab" aria-controls="script" aria-selected="false">脚本创作</div>
+            <div id="tab-shooting" class="nav-tab" data-tab="shooting" role="tab" aria-controls="shooting" aria-selected="false">短剧制作</div>
+            <div id="tab-editing" class="nav-tab" data-tab="editing" role="tab" aria-controls="editing" aria-selected="false">剪辑制作</div>
+            <div id="tab-publishing" class="nav-tab" data-tab="publishing" role="tab" aria-controls="publishing" aria-selected="false">发布管理</div>
+            <div id="tab-data" class="nav-tab" data-tab="data" role="tab" aria-controls="data" aria-selected="false">数据分析</div>
+            <div id="tab-community" class="nav-tab" data-tab="community" role="tab" aria-controls="community" aria-selected="false">创作者社区</div>
+        </nav>
+        
+        <!-- 对标分析 -->
+        <section id="benchmark" class="tab-content" role="tabpanel" aria-labelledby="tab-benchmark">
+            <div class="benchmark-header">
+                <h2>对标分析</h2>
+                <button class="btn btn-secondary" onclick="goBack()">返回上级</button>
+            </div>
+            
+            <div class="benchmark-container">
+                <div id="benchmark-form-section" class="benchmark-form-section">
+                    <h3>分析设置</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="benchmark-platform">平台选择</label>
+                            <select id="benchmark-platform" name="benchmark-platform">
+                                <option value="douyin" selected>抖音</option>
+                                <option value="kuaishou">快手</option>
+                                <option value="bilibili">B站</option>
+                                <option value="wechat">视频号</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="benchmark-video-type">视频类型</label>
+                            <select id="benchmark-video-type" name="benchmark-video-type">
+                                <option value="哲理动画" selected>哲理动画</option>
+                                <option value="爱情">爱情</option>
+                                <option value="喜剧">喜剧</option>
+                                <option value="科幻">科幻</option>
+                                <option value="悬疑">悬疑</option>
+                                <option value="职场">职场</option>
+                                <option value="校园">校园</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="benchmark-account">对标账号</label>
+                            <input type="text" id="benchmark-account" name="benchmark-account" placeholder="例如：藏经人">
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label>热门搜索</label>
+                            <button class="btn btn-secondary" onclick="searchHotTopics()">搜索热门题材</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button class="btn" onclick="analyzeBenchmark()">开始分析</button>
+                    </div>
+                </div>
+                
+                <div class="benchmark-result-section">
+                    <div id="hot-topics-result" class="hot-topics-section" style="display: none;">
+                        <h3>热门题材及优秀博主</h3>
+                        <div class="topics-grid">
+                            <!-- 热门题材内容将通过JavaScript动态生成 -->
+                        </div>
+                        
+                        <div class="topic-actions" style="display: none;">
+                            <button class="btn" onclick="analyzeSelectedBloggers()">分析选中博主</button>
+                        </div>
+                    </div>
+                    
+                    <div class="result-section" id="benchmark-result" style="display: none;">
+                        <h3>分析结果</h3>
+                        <div class="analysis-grid">
+                            <div class="analysis-item">
+                                <h4>内容分析</h4>
+                                <div id="content-analysis"></div>
+                            </div>
+                            <div class="analysis-item">
+                                <h4>数据分析</h4>
+                                <div id="data-analysis"></div>
+                            </div>
+                            <div class="analysis-item">
+                                <h4>视频分析</h4>
+                                <div id="video-analysis"></div>
+                            </div>
+                            <div class="analysis-item">
+                                <h4>优化建议</h4>
+                                <div id="optimization-suggestions"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 拆片分析 -->
+        <section id="breakdown" class="tab-content" style="display: none;" role="tabpanel" aria-labelledby="tab-breakdown">
+            <h2>拆片分析</h2>
+            
+            <div class="form-group">
+                <label for="breakdown-url">视频链接</label>
+                <input type="text" id="breakdown-url" name="breakdown-url" placeholder="输入要分析的视频链接">
+            </div>
+            
+            <div class="form-group">
+                <label for="breakdown-file">本地视频</label>
+                <input type="file" id="breakdown-file" name="breakdown-file" accept="video/*">
+            </div>
+            
+            <button class="btn" onclick="analyzeBreakdown()">开始拆片</button>
+            
+            <div class="result-section" id="breakdown-result" style="display: none;">
+                <h3>拆片结果</h3>
+                <div class="character-item">
+                    <h4>视频基本信息</h4>
+                    <div class="info-grid" id="video-info">
+                        <div class="info-item">
+                            <strong>时长：</strong>
+                            <span id="video-duration">3分20秒</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>分辨率：</strong>
+                            <span id="video-resolution">1080p</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>帧率：</strong>
+                            <span id="video-fps">30fps</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>文件大小：</strong>
+                            <span id="video-file-size">15MB</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>视频编码：</strong>
+                            <span id="video-codec">H.264</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>音频编码：</strong>
+                            <span id="audio-codec">AAC</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>视频比特率：</strong>
+                            <span id="video-bitrate">5Mbps</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>音频采样率：</strong>
+                            <span id="audio-samplerate">48kHz</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>声道数：</strong>
+                            <span id="audio-channels">2</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>色彩空间：</strong>
+                            <span id="color-space">BT.709</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="character-item">
+                    <h4>叙事与结构分析</h4>
+                    <div class="structure-analysis" id="structure-analysis">
+                        <div class="structure-table">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <th style="padding: 8px; text-align: left;">时间段</th>
+                                    <th style="padding: 8px; text-align: left;">内容类型</th>
+                                    <th style="padding: 8px; text-align: left;">时长</th>
+                                    <th style="padding: 8px; text-align: left;">占比</th>
+                                    <th style="padding: 8px; text-align: left;">分析</th>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <td style="padding: 8px;">0:00-0:03</td>
+                                    <td style="padding: 8px;">黄金前3秒（钩子）</td>
+                                    <td style="padding: 8px;">3秒</td>
+                                    <td style="padding: 8px;">1.6%</td>
+                                    <td style="padding: 8px;">吸引注意力</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <td style="padding: 8px;">0:03-0:30</td>
+                                    <td style="padding: 8px;">铺垫</td>
+                                    <td style="padding: 8px;">27秒</td>
+                                    <td style="padding: 8px;">14.2%</td>
+                                    <td style="padding: 8px;">人物介绍，场景搭建</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <td style="padding: 8px;">0:30-1:30</td>
+                                    <td style="padding: 8px;">发展</td>
+                                    <td style="padding: 60秒;">60秒</td>
+                                    <td style="padding: 8px;">31.6%</td>
+                                    <td style="padding: 8px;">情节推进，冲突积累</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <td style="padding: 8px;">1:30-2:15</td>
+                                    <td style="padding: 8px;">核心冲突/高潮</td>
+                                    <td style="padding: 8px;">45秒</td>
+                                    <td style="padding: 8px;">23.7%</td>
+                                    <td style="padding: 8px;">冲突爆发，情感顶点</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <td style="padding: 8px;">2:15-3:15</td>
+                                    <td style="padding: 8px;">结尾</td>
+                                    <td style="padding: 8px;">60秒</td>
+                                    <td style="padding: 8px;">31.6%</td>
+                                    <td style="padding: 8px;">解决冲突，预留悬念</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid #ddd;">
+                                    <td style="padding: 8px;">3:15-3:20</td>
+                                    <td style="padding: 8px;">互动引导</td>
+                                    <td style="padding: 8px;">5秒</td>
+                                    <td style="padding: 8px;">2.6%</td>
+                                    <td style="padding: 8px;">引导点赞、评论、关注</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div class="structure-charts">
+                            <div class="chart-container">
+                                <h5>时长占比</h5>
+                                <div id="duration-chart" style="height: 300px;"></div>
+                            </div>
+                            <div class="chart-container">
+                                <h5>节奏曲线</h5>
+                                <div id="rhythm-chart" style="height: 300px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="character-item">
+                    <h4>镜头语言分析</h4>
+                    <div class="shot-analysis" id="shot-analysis">
+                        <div class="shot-stats">
+                            <div class="stat-item">
+                                <strong>总镜头数：</strong>
+                                <span id="total-shots">40</span>
+                            </div>
+                            <div class="stat-item">
+                                <strong>平均镜头时长：</strong>
+                                <span id="avg-shot-duration">5秒</span>
+                            </div>
+                            <div class="stat-item">
+                                <strong>切换频率：</strong>
+                                <span id="cut-frequency">12次/分钟</span>
+                            </div>
+                            <div class="stat-item">
+                                <strong>剪辑节奏：</strong>
+                                <span id="editing-rhythm">中等</span>
+                            </div>
+                        </div>
+                        
+                        <div class="shot-charts">
+                            <div class="chart-container">
+                                <h5>景别分布</h5>
+                                <div id="shot-type-chart" style="height: 300px;"></div>
+                            </div>
+                            <div class="chart-container">
+                                <h5>镜头运动分析</h5>
+                                <div id="shot-motion-chart" style="height: 300px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="character-item">
+                    <h4>音效与音频分析</h4>
+                    <div class="audio-analysis" id="audio-analysis">
+                        <div class="audio-stats">
+                            <div class="stat-item">
+                                <strong>对白占比：</strong>
+                                <span id="dialogue-ratio">60%</span>
+                            </div>
+                            <div class="stat-item">
+                                <strong>背景音乐：</strong>
+                                <span id="bg-music-count">3首</span>
+                            </div>
+                            <div class="stat-item">
+                                <strong>音效数量：</strong>
+                                <span id="sound-effect-count">15个</span>
+                            </div>
+                            <div class="stat-item">
+                                <strong>音频质量：</strong>
+                                <span id="audio-quality">良好</span>
+                            </div>
+                        </div>
+                        
+                        <div class="audio-charts">
+                            <div class="chart-container">
+                                <h5>音频成分占比</h5>
+                                <div id="audio-component-chart" style="height: 300px;"></div>
+                            </div>
+                            <div class="chart-container">
+                                <h5>音效类型分布</h5>
+                                <div id="sound-effect-chart" style="height: 300px;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="audio-details">
+                            <h5>详细分析</h5>
+                            <div class="detail-section">
+                                <h6>对白分析</h6>
+                                <p><strong>语速：</strong><span id="dialogue-speed">中等</span></p>
+                                <p><strong>是否有字幕：</strong><span id="has-subtitles">是</span></p>
+                                <p><strong>人声时长：</strong><span id="dialogue-duration">120秒</span></p>
+                            </div>
+                            <div class="detail-section">
+                                <h6>音乐分析</h6>
+                                <p><strong>情感倾向：</strong><span id="music-emotion">激昂/舒缓</span></p>
+                                <p><strong>总时长：</strong><span id="music-duration">180秒</span></p>
+                                <p><strong>出现时段：</strong><span id="music-segments">0:00-1:00, 1:30-2:30</span></p>
+                            </div>
+                            <div class="detail-section">
+                                <h6>质量评估</h6>
+                                <p><strong>爆音检测：</strong><span id="audio-clipping">无</span></p>
+                                <p><strong>电流声：</strong><span id="audio-noise">无</span></p>
+                                <p><strong>音频平衡：</strong><span id="audio-balance">良好</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="character-item">
+                    <h4>内容语义分析</h4>
+                    <div class="semantic-analysis" id="semantic-analysis">
+                        <div class="semantic-stats">
+                            <div class="stat-item">
+                                <strong>核心主题：</strong>
+                                <span id="core-topic">职场反击</span>
+                            </div>
+                            <div class="stat-item">
+                                <strong>主要人物：</strong>
+                                <span id="main-characters">3人</span>
+                            </div>
+                            <div class="stat-item">
+                                <strong>主要场景：</strong>
+                                <span id="main-scenes">办公室</span>
+                            </div>
+                            <div class="stat-item">
+                                <strong>情感基调：</strong>
+                                <span id="emotional-tone">励志</span>
+                            </div>
+                        </div>
+                        
+                        <div class="semantic-charts">
+                            <div class="chart-container">
+                                <h5>主题关键词</h5>
+                                <div id="topic-keywords-chart" style="height: 300px;"></div>
+                            </div>
+                            <div class="chart-container">
+                                <h5>情感变化曲线</h5>
+                                <div id="emotion-curve-chart" style="height: 300px;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="semantic-details">
+                            <h5>详细分析</h5>
+                            <div class="detail-section">
+                                <h6>主题识别</h6>
+                                <p><strong>核心主题：</strong><span id="core-topic-detail">职场反击</span></p>
+                                <p><strong>关键词：</strong><span id="keywords">职场、反击、成长、自信</span></p>
+                            </div>
+                            <div class="detail-section">
+                                <h6>人物识别</h6>
+                                <p><strong>人物数量：</strong><span id="character-count">3人</span></p>
+                                <p><strong>主角出镜时长：</strong><span id="main-character-screen-time">80%</span></p>
+                                <p><strong>配角出镜时长：</strong><span id="supporting-character-screen-time">20%</span></p>
+                            </div>
+                            <div class="detail-section">
+                                <h6>场景识别</h6>
+                                <p><strong>主要场景：</strong><span id="main-scenes-detail">办公室</span></p>
+                                <p><strong>场景切换次数：</strong><span id="scene-changes">3次</span></p>
+                            </div>
+                            <div class="detail-section">
+                                <h6>情感基调分析</h6>
+                                <p><strong>整体情感：</strong><span id="overall-emotion">励志</span></p>
+                                <p><strong>情感变化：</strong><span id="emotion-changes">从压抑到释放</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="character-item">
+                    <h4>剪辑与视觉风格分析</h4>
+                    <div class="editing-analysis" id="editing-analysis">
+                        <div class="editing-stats">
+                            <div class="stat-item">
+                                <strong>剪辑风格：</strong>
+                                <span id="editing-style">快速碎切</span>
+                            </div>
+                            <div class="stat-item">
+                                <strong>主要转场：</strong>
+                                <span id="main-transition">硬切</span>
+                            </div>
+                            <div class="stat-item">
+                                <strong>色调风格：</strong>
+                                <span id="color-style">暖色</span>
+                            </div>
+                            <div class="stat-item">
+                                <strong>特效数量：</strong>
+                                <span id="effect-count">5个</span>
+                            </div>
+                        </div>
+                        
+                        <div class="editing-charts">
+                            <div class="chart-container">
+                                <h5>转场效果分布</h5>
+                                <div id="transition-chart" style="height: 300px;"></div>
+                            </div>
+                            <div class="chart-container">
+                                <h5>色彩分析</h5>
+                                <div id="color-chart" style="height: 300px;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="editing-details">
+                            <h5>详细分析</h5>
+                            <div class="detail-section">
+                                <h6>剪辑风格</h6>
+                                <p><strong>风格倾向：</strong><span id="editing-style-detail">快速碎切</span></p>
+                                <p><strong>平均镜头时长：</strong><span id="avg-shot-duration">5秒</span></p>
+                            </div>
+                            <div class="detail-section">
+                                <h6>转场分析</h6>
+                                <p><strong>主要转场：</strong><span id="main-transition-detail">硬切</span></p>
+                                <p><strong>转场频率：</strong><span id="transition-frequency">12次/分钟</span></p>
+                            </div>
+                            <div class="detail-section">
+                                <h6>色彩调色</h6>
+                                <p><strong>色调：</strong><span id="color-tone">暖色</span></p>
+                                <p><strong>色彩饱和度：</strong><span id="color-saturation">高</span></p>
+                                <p><strong>对比度：</strong><span id="color-contrast">中等</span></p>
+                            </div>
+                            <div class="detail-section">
+                                <h6>特效与文字</h6>
+                                <p><strong>特效数量：</strong><span id="effect-count-detail">5个</span></p>
+                                <p><strong>文字标题：</strong><span id="text-titles">有</span></p>
+                                <p><strong>特效类型：</strong><span id="effect-types">分屏、粒子</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="character-item">
+                    <h4>综合优化与市场建议</h4>
+                    <div class="optimization-analysis" id="optimization-analysis">
+                        <div class="optimization-sections">
+                            <div class="optimization-section">
+                                <h5>优势诊断报告</h5>
+                                <div class="report-content">
+                                    <p id="strengths-report">该视频在结构设计上表现出色，黄金前3秒成功吸引观众注意力，核心冲突部分节奏紧凑，情绪引爆点处理得当。镜头语言丰富，景别变化合理，运动镜头的运用增强了画面的动感。音效与画面配合默契，情感表达到位。整体剪辑流畅，转场自然，色彩风格统一，符合目标受众的审美偏好。</p>
+                                </div>
+                            </div>
+                            
+                            <div class="optimization-section">
+                                <h5>改进建议</h5>
+                                <div class="report-content">
+                                    <ul id="improvement-suggestions">
+                                        <li>开头部分可以更加简洁有力，进一步提升观众留存率。</li>
+                                        <li>中间段落存在轻微拖沓，建议适当精简，保持节奏紧凑。</li>
+                                        <li>音效类型可以更加丰富，特别是环境声的运用，增强场景的真实感。</li>
+                                        <li>色彩对比度可以适当提高，使画面更加鲜明突出。</li>
+                                        <li>结尾部分可以增加互动引导，提高观众参与度。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="optimization-section">
+                                <h5>同类对比</h5>
+                                <div class="report-content">
+                                    <p><strong>与同类热门视频相比：</strong></p>
+                                    <ul id="comparison-data">
+                                        <li>视频时长：略长于平均水平（3分20秒 vs 2分45秒）</li>
+                                        <li>镜头数量：高于平均水平（40个 vs 32个）</li>
+                                        <li>转场频率：与平均水平接近（12次/分钟 vs 11次/分钟）</li>
+                                        <li>情感强度：峰值高于平均水平（80 vs 72）</li>
+                                        <li>互动引导：低于平均水平（1处 vs 2.5处）</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="optimization-section">
+                                <h5>市场趋势参考</h5>
+                                <div class="report-content">
+                                    <p id="market-trend">根据该视频的分析标签（职场、励志、快节奏），此类内容近期在平台上表现良好，尤其是职场题材的短视频播放量同比增长25%。观众对真实感强、情感共鸣度高的内容需求增加，建议在后续创作中加强情感表达和现实意义的传递。同时，短视频平台对互动性强的内容推荐权重较高，可以适当增加互动元素。</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="optimization-actions">
+                            <button class="btn btn-primary" id="export-report">导出报告</button>
+                            <button class="btn btn-secondary" id="share-report">分享报告</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 脚本创作 -->
+        <section id="script" class="tab-content" style="display: none;" role="tabpanel" aria-labelledby="tab-script">
+            <h2>脚本创作</h2>
+            
+            <form id="script-form">
+                <div class="form-group">
+                    <label for="script-topic">短剧主题</label>
+                    <input type="text" id="script-topic" name="script-topic" placeholder="例如：咖啡店的邂逅" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="script-genre">短剧类型</label>
+                    <select id="script-genre" name="script-genre" required>
+                        <option value="爱情">爱情</option>
+                        <option value="喜剧">喜剧</option>
+                        <option value="悲剧">悲剧</option>
+                        <option value="科幻">科幻</option>
+                        <option value="悬疑">悬疑</option>
+                        <option value="职场">职场</option>
+                        <option value="校园">校园</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="script-duration">短剧时长</label>
+                    <input type="text" id="script-duration" name="script-duration" value="5分钟" placeholder="例如：5分钟" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="script-characters">角色列表</label>
+                    <input type="text" id="script-characters" name="script-characters" value="小明, 小红" placeholder="例如：小明, 小红" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="script-setting">场景设置</label>
+                    <input type="text" id="script-setting" name="script-setting" value="咖啡店" placeholder="例如：咖啡店" required>
+                </div>
+                
+                <!-- 艺术表现力选项 -->
+                <div class="advanced-options">
+                    <h3>艺术表现力</h3>
+                    
+                    <div class="form-group">
+                        <label for="script-visual-style">视觉风格</label>
+                        <select id="script-visual-style" name="script-visual-style">
+                            <option value="modern" selected>现代风格</option>
+                            <option value="traditional">传统风格</option>
+                            <option value="epic">史诗风格</option>
+                            <option value="minimalist">极简风格</option>
+                            <option value="colorful">色彩丰富</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="script-narrative-structure">叙事结构</label>
+                        <select id="script-narrative-structure" name="script-narrative-structure">
+                            <option value="linear" selected>线性叙事</option>
+                            <option value="non-linear">非线性叙事</option>
+                            <option value="flashback">倒叙结构</option>
+                            <option value="parallel">平行叙事</option>
+                            <option value="cyclical">循环叙事</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="script-cultural-element">文化元素</label>
+                        <select id="script-cultural-element" name="script-cultural-element">
+                            <option value="none" selected>无特定文化</option>
+                            <option value="chinese-traditional">中国传统文化</option>
+                            <option value="chinese-modern">中国现代文化</option>
+                            <option value="western-classical">西方古典文化</option>
+                            <option value="eastern-asia">东亚文化</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="script-emotional-tone">情感基调</label>
+                        <select id="script-emotional-tone" name="script-emotional-tone">
+                            <option value="neutral" selected>中性</option>
+                            <option value="happy">欢快</option>
+                            <option value="sad">悲伤</option>
+                            <option value="tense">紧张</option>
+                            <option value="romantic">浪漫</option>
+                            <option value="epic">史诗</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn">生成脚本</button>
+                <button type="button" class="btn btn-secondary" onclick="clearScriptForm()">清空</button>
+            </form>
+            
+            <div id="script-result" class="result-section" style="display: none;">
+                <h3>生成结果</h3>
+                <div id="script-content" class="character-item">
+                    <!-- 剧本内容将在这里显示 -->
+                </div>
+                
+                <button class="btn" onclick="editGeneratedScript()">编辑脚本</button>
+                <button class="btn btn-secondary" onclick="exportScriptFile()">导出脚本</button>
+            </div>
+        </section>
+        
+        <!-- 短剧制作 -->
+        <section id="shooting" class="tab-content" style="display: none;" role="tabpanel" aria-labelledby="tab-shooting">
+            <h2>短剧制作</h2>
+            
+            <div class="drama-production-flow">
+                <div class="flow-step active">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>剧本与分镜</h3>
+                        <p>Qwen-72B (剧本) + Qwen-VL-72B (分镜辅助)</p>
+                        <div class="form-group">
+                            <label for="drama-script">选择脚本</label>
+                            <select id="drama-script" name="drama-script">
+                                <option value="">-- 选择脚本 --</option>
+                                <option value="script1">咖啡店的邂逅</option>
+                                <option value="script2">办公室的故事</option>
+                                <option value="script3">校园青春</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="drama-style">风格设置</label>
+                            <select id="drama-style" name="drama-style">
+                                <option value="modern">现代风格</option>
+                                <option value="traditional">传统风格</option>
+                                <option value="epic">史诗风格</option>
+                                <option value="minimalist">极简风格</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-secondary" onclick="generateStoryboard()">生成分镜</button>
+                    </div>
+                </div>
+                
+                <div class="flow-arrow">↓</div>
+                
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>角色生成</h3>
+                        <p>豆包 (生图) / SkyReels-V3参考图能力</p>
+                        <div class="form-group">
+                            <label for="character-generation">生成方式</label>
+                            <select id="character-generation" name="character-generation">
+                                <option value="doubao">豆包生图</option>
+                                <option value="skyreels">SkyReels-V3</option>
+                                <option value="upload">上传参考图</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="character-count">角色数量</label>
+                            <input type="number" id="character-count" name="character-count" value="2" min="1" max="10">
+                        </div>
+                        <div class="form-group">
+                            <label for="character-descriptions">角色描述</label>
+                            <textarea id="character-descriptions" name="character-descriptions" placeholder="输入角色描述，每个角色一行"></textarea>
+                        </div>
+                        <button class="btn btn-secondary" onclick="generateCharacters()">生成角色</button>
+                    </div>
+                </div>
+                
+                <div class="flow-arrow">↓</div>
+                
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>视频生成 <span class="highlight">核心生产力！</span></h3>
+                        <p>LTX-2 (8卡并行)</p>
+                        <div class="form-group">
+                            <label for="video-resolution">分辨率</label>
+                            <select id="video-resolution" name="video-resolution">
+                                <option value="720p">720p</option>
+                                <option value="1080p">1080p</option>
+                                <option value="4k">4K</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="video-quality">质量设置</label>
+                            <select id="video-quality" name="video-quality">
+                                <option value="fast">快速</option>
+                                <option value="standard">标准</option>
+                                <option value="high">高质量</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="video-duration">预计时长</label>
+                            <input type="text" id="video-duration" name="video-duration" value="5分钟">
+                        </div>
+                        <button class="btn btn-secondary" onclick="generateVideo()">生成视频</button>
+                    </div>
+                </div>
+                
+                <div class="flow-arrow">↓</div>
+                
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>语音合成</h3>
+                        <p>Qwen3-TTS (情感语音/多语言)</p>
+                        <div class="form-group">
+                            <label for="voice-language">语言选择</label>
+                            <select id="voice-language" name="voice-language">
+                                <option value="zh">中文</option>
+                                <option value="en">英文</option>
+                                <option value="ja">日文</option>
+                                <option value="ko">韩文</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="voice-emotion">情感风格</label>
+                            <select id="voice-emotion" name="voice-emotion">
+                                <option value="neutral">中性</option>
+                                <option value="happy">欢快</option>
+                                <option value="sad">悲伤</option>
+                                <option value="angry">愤怒</option>
+                                <option value="romantic">浪漫</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-secondary" onclick="generateAudio()">生成语音</button>
+                    </div>
+                </div>
+                
+                <div class="flow-arrow">↓</div>
+                
+                <div class="flow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>生产调度</h3>
+                        <p>Huobao Drama (素材管理/任务管理)</p>
+                        <div class="form-group">
+                            <label for="project-name">项目名称</label>
+                            <input type="text" id="project-name" name="project-name" placeholder="输入项目名称">
+                        </div>
+                        <div class="form-group">
+                            <label for="production-status">生产状态</label>
+                            <select id="production-status" name="production-status">
+                                <option value="planning">计划中</option>
+                                <option value="in_progress">进行中</option>
+                                <option value="completed">已完成</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-secondary" onclick="manageProduction()">管理项目</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="result-section" id="drama-result" style="display: none;">
+                <h3>制作结果</h3>
+                <div class="character-item">
+                    <h4>项目信息</h4>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>项目名称：</strong>
+                            <span id="result-project-name">咖啡店的邂逅</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>制作状态：</strong>
+                            <span id="result-status">已完成</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>总时长：</strong>
+                            <span id="result-duration">5分钟</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>生成文件：</strong>
+                            <span id="result-files">剧本、分镜、角色、视频、音频</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="character-item">
+                    <h4>生成文件</h4>
+                    <div class="file-list">
+                        <div class="file-item">
+                            <h5>剧本文件</h5>
+                            <p>script.json</p>
+                            <button class="btn btn-sm">下载</button>
+                        </div>
+                        <div class="file-item">
+                            <h5>分镜文件</h5>
+                            <p>storyboard.json</p>
+                            <button class="btn btn-sm">下载</button>
+                        </div>
+                        <div class="file-item">
+                            <h5>角色文件</h5>
+                            <p>characters.json</p>
+                            <button class="btn btn-sm">下载</button>
+                        </div>
+                        <div class="file-item">
+                            <h5>视频文件</h5>
+                            <p>final_video.mp4</p>
+                            <button class="btn btn-sm">下载</button>
+                        </div>
+                        <div class="file-item">
+                            <h5>音频文件</h5>
+                            <p>audio.mp3</p>
+                            <button class="btn btn-sm">下载</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="character-item">
+                    <h4>任务状态</h4>
+                    <div class="task-list">
+                        <div class="task-item completed">
+                            <span>剧本生成</span>
+                            <span class="task-status">完成</span>
+                        </div>
+                        <div class="task-item completed">
+                            <span>分镜设计</span>
+                            <span class="task-status">完成</span>
+                        </div>
+                        <div class="task-item completed">
+                            <span>角色生成</span>
+                            <span class="task-status">完成</span>
+                        </div>
+                        <div class="task-item completed">
+                            <span>视频生成</span>
+                            <span class="task-status">完成</span>
+                        </div>
+                        <div class="task-item completed">
+                            <span>语音合成</span>
+                            <span class="task-status">完成</span>
+                        </div>
+                        <div class="task-item completed">
+                            <span>最终合成</span>
+                            <span class="task-status">完成</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="production-actions">
+                <button class="btn" onclick="startProductionWorkflow()">开始制作流程</button>
+                <button class="btn btn-secondary" onclick="resetProduction()">重置</button>
+            </div>
+        </section>
+        
+        <!-- 剪辑制作 -->
+        <section id="editing" class="tab-content" style="display: none;" role="tabpanel" aria-labelledby="tab-editing">
+            <h2>剪辑制作</h2>
+            
+            <div class="form-group">
+                <label for="editing-footage">导入素材</label>
+                <input type="file" id="editing-footage" name="editing-footage" accept="video/*" multiple>
+            </div>
+            
+            <div class="form-group">
+                <label for="editing-script">选择脚本</label>
+                <select id="editing-script" name="editing-script">
+                    <option value="">-- 选择脚本 --</option>
+                    <option value="script1">咖啡店的邂逅</option>
+                    <option value="script2">办公室的故事</option>
+                    <option value="script3">校园青春</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="editing-style">剪辑风格</label>
+                <select id="editing-style" name="editing-style">
+                    <option value="fast" selected>快速剪辑</option>
+                    <option value="slow">慢节奏剪辑</option>
+                    <option value="dramatic">戏剧化剪辑</option>
+                    <option value="comedic">喜剧剪辑</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="editing-music">背景音乐</label>
+                <select id="editing-music" name="editing-music">
+                    <option value="">-- 选择音乐 --</option>
+                    <option value="romantic">浪漫风格</option>
+                    <option value="dramatic">戏剧风格</option>
+                    <option value="upbeat">欢快风格</option>
+                    <option value="emotional">情感风格</option>
+                </select>
+            </div>
+            
+            <button class="btn" onclick="startEditing()">开始剪辑</button>
+            
+            <div class="result-section" id="editing-result" style="display: none;">
+                <h3>剪辑结果</h3>
+                <div class="character-item">
+                    <h4>剪辑进度</h4>
+                    <div style="background: #f0f0f0; height: 20px; border-radius: 10px; overflow: hidden;">
+                        <div style="background: #667eea; height: 100%; width: 100%; text-align: center; color: white; line-height: 20px;">100% 完成</div>
+                    </div>
+                </div>
+                
+                <div class="file-list">
+                    <div class="file-item">
+                        <h4>原始素材</h4>
+                        <p>12个视频文件</p>
+                        <span class="status success">已导入</span>
+                    </div>
+                    <div class="file-item">
+                        <h4>剪辑项目</h4>
+                        <p>咖啡店的邂逅.prproj</p>
+                        <span class="status success">已创建</span>
+                    </div>
+                    <div class="file-item">
+                        <h4>导出视频</h4>
+                        <p>咖啡店的邂逅.mp4</p>
+                        <span class="status success">已导出</span>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="previewVideo()">预览视频</button>
+                <button class="btn btn-secondary" onclick="exportFinalVideo()">导出最终视频</button>
+            </div>
+        </section>
+        
+        <!-- 发布管理 -->
+        <section id="publishing" class="tab-content" style="display: none;" role="tabpanel" aria-labelledby="tab-publishing">
+            <h2>发布管理</h2>
+            
+            <div class="form-group">
+                <label for="publishing-video">选择视频</label>
+                <input type="file" id="publishing-video" name="publishing-video" accept="video/*">
+            </div>
+            
+            <div class="form-group">
+                <label for="publishing-title">视频标题</label>
+                <input type="text" id="publishing-title" name="publishing-title" placeholder="输入视频标题" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="publishing-description">视频描述</label>
+                <textarea id="publishing-description" name="publishing-description" placeholder="输入视频描述"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="publishing-tags">标签</label>
+                <input type="text" id="publishing-tags" name="publishing-tags" placeholder="输入标签，用逗号分隔">
+            </div>
+            
+            <div class="form-group">
+                <label for="publishing-platforms">发布平台</label>
+                <div class="platform-options">
+                    <div class="platform-option">
+                        <input type="checkbox" id="pub-platform-douyin" name="publishing-platforms" value="douyin" checked>
+                        <label for="pub-platform-douyin">抖音</label>
+                    </div>
+                    <div class="platform-option">
+                        <input type="checkbox" id="pub-platform-kuaishou" name="publishing-platforms" value="kuaishou" checked>
+                        <label for="pub-platform-kuaishou">快手</label>
+                    </div>
+                    <div class="platform-option">
+                        <input type="checkbox" id="pub-platform-bilibili" name="publishing-platforms" value="bilibili" checked>
+                        <label for="pub-platform-bilibili">B站</label>
+                    </div>
+                    <div class="platform-option">
+                        <input type="checkbox" id="pub-platform-wechat" name="publishing-platforms" value="wechat" checked>
+                        <label for="pub-platform-wechat">视频号</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="publishing-time">发布时间</label>
+                <input type="datetime-local" id="publishing-time" name="publishing-time">
+            </div>
+            
+            <button class="btn" onclick="publishVideo()">发布视频</button>
+            
+            <div class="result-section" id="publishing-result" style="display: none;">
+                <h3>发布结果</h3>
+                <div class="file-list">
+                    <div class="file-item">
+                        <h4>抖音</h4>
+                        <p>视频已上传</p>
+                        <span class="status success">已发布</span>
+                    </div>
+                    <div class="file-item">
+                        <h4>快手</h4>
+                        <p>视频已上传</p>
+                        <span class="status success">已发布</span>
+                    </div>
+                    <div class="file-item">
+                        <h4>B站</h4>
+                        <p>视频已上传</p>
+                        <span class="status success">已发布</span>
+                    </div>
+                    <div class="file-item">
+                        <h4>视频号</h4>
+                        <p>视频已上传</p>
+                        <span class="status success">已发布</span>
+                    </div>
+                </div>
+                
+                <div class="character-item">
+                    <h4>发布详情</h4>
+                    <p><strong>标题：</strong><span id="pub-title">咖啡店的邂逅</span></p>
+                    <p><strong>发布时间：</strong><span id="pub-time">2026-02-28 18:00</span></p>
+                    <p><strong>状态：</strong><span class="status success">全部发布成功</span></p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 数据分析 -->
+        <section id="data" class="tab-content" style="display: none;" role="tabpanel" aria-labelledby="tab-data">
+            <h2>数据分析</h2>
+            
+            <div class="analytics-section">
+                <h3>内容表现</h3>
+                <div class="metric">
+                    <div class="metric-value">12.5K</div>
+                    <div class="metric-label">总播放量</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">8.2K</div>
+                    <div class="metric-label">总点赞数</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">1.5K</div>
+                    <div class="metric-label">总评论数</div>
+                </div>
+                <div class="metric">
+                    <div class="metric-value">3.2K</div>
+                    <div class="metric-label">总分享数</div>
+                </div>
+            </div>
+            
+            <div class="analytics-section">
+                <h3>平台表现</h3>
+                <div class="file-list">
+                    <div class="file-item">
+                        <h4>抖音</h4>
+                        <p>播放量：8.2K</p>
+                        <p>点赞量：5.1K</p>
+                        <p>评论量：980</p>
+                    </div>
+                    <div class="file-item">
+                        <h4>快手</h4>
+                        <p>播放量：2.1K</p>
+                        <p>点赞量：1.5K</p>
+                        <p>评论量：320</p>
+                    </div>
+                    <div class="file-item">
+                        <h4>B站</h4>
+                        <p>播放量：1.8K</p>
+                        <p>点赞量：1.2K</p>
+                        <p>评论量：180</p>
+                    </div>
+                    <div class="file-item">
+                        <h4>视频号</h4>
+                        <p>播放量：0.4K</p>
+                        <p>点赞量：0.4K</p>
+                        <p>评论量：20</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="analytics-section">
+                <h3>受众分析</h3>
+                <div class="file-list">
+                    <div class="file-item">
+                        <h4>年龄分布</h4>
+                        <p>18-24岁：45%</p>
+                        <p>25-34岁：35%</p>
+                        <p>35-44岁：15%</p>
+                        <p>45岁以上：5%</p>
+                    </div>
+                    <div class="file-item">
+                        <h4>性别分布</h4>
+                        <p>男性：40%</p>
+                        <p>女性：60%</p>
+                    </div>
+                    <div class="file-item">
+                        <h4>地域分布</h4>
+                        <p>一线城市：30%</p>
+                        <p>二线城市：40%</p>
+                        <p>三线城市：20%</p>
+                        <p>其他：10%</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 创作者社区 -->
+        <section id="community" class="tab-content" style="display: none;" role="tabpanel" aria-labelledby="tab-community">
+            <h2>创作者社区</h2>
+            
+            <div class="community-section">
+                <h3>热门帖子</h3>
+                <div class="community-post">
+                    <h4>如何提高短剧的观看量？</h4>
+                    <p>分享一些提高短剧观看量的技巧，包括标题、封面、内容结构等方面的经验。</p>
+                    <div class="author">发布者：短剧达人 | 2小时前</div>
+                </div>
+                <div class="community-post">
+                    <h4>推荐几个好用的视频剪辑工具</h4>
+                    <p>分享一些常用的视频剪辑工具，包括免费和付费的，以及它们的优缺点。</p>
+                    <div class="author">发布者：剪辑大师 | 5小时前</div>
+                </div>
+                <div class="community-post">
+                    <h4>如何与品牌方合作？</h4>
+                    <p>分享与品牌方合作的经验，包括如何找到品牌方、如何谈合作、如何执行等。</p>
+                    <div class="author">发布者：商务专家 | 1天前</div>
+                </div>
+            </div>
+            
+            <div class="community-section">
+                <h3>资源共享</h3>
+                <div class="file-list">
+                    <div class="file-item">
+                        <h4>剧本模板</h4>
+                        <p>100个短剧剧本模板，涵盖多种类型</p>
+                        <button class="btn btn-secondary">下载</button>
+                    </div>
+                    <div class="file-item">
+                        <h4>音效库</h4>
+                        <p>500个常用音效，免费使用</p>
+                        <button class="btn btn-secondary">下载</button>
+                    </div>
+                    <div class="file-item">
+                        <h4>视频素材</h4>
+                        <p>100个免费视频素材，可商用</p>
+                        <button class="btn btn-secondary">下载</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js" defer></script>
+</body>
+</html>

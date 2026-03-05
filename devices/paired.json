@@ -1,0 +1,130 @@
+{
+  "8dfbc8ff39fdd98de302eee42d6d3e871a1451168a11e357b500ad027bf6a7a0": {
+    "deviceId": "8dfbc8ff39fdd98de302eee42d6d3e871a1451168a11e357b500ad027bf6a7a0",
+    "publicKey": "Kyv01TzDQ1-dKWsZjVtG9v7aM0hOxJEr_s1R3ETAL70",
+    "platform": "linux",
+    "clientId": "clawdbot-probe",
+    "clientMode": "probe",
+    "role": "operator",
+    "roles": [
+      "operator"
+    ],
+    "scopes": [
+      "operator.admin",
+      "operator.approvals",
+      "operator.pairing"
+    ],
+    "remoteIp": "127.0.0.1",
+    "tokens": {
+      "operator": {
+        "token": "38dec05c55d543edb628b26339f75683",
+        "role": "operator",
+        "scopes": [
+          "operator.admin",
+          "operator.approvals",
+          "operator.pairing"
+        ],
+        "createdAtMs": 1770990324652,
+        "lastUsedAtMs": 1771043286032
+      }
+    },
+    "createdAtMs": 1770990324652,
+    "approvedAtMs": 1770990324652
+  },
+  "f1591cbcb69b9e34f28a11af62e296939b70e62c25616a1aa337e06812729bbf": {
+    "deviceId": "f1591cbcb69b9e34f28a11af62e296939b70e62c25616a1aa337e06812729bbf",
+    "publicKey": "zTwp0DNRzY8HDxrj7VBIlvlKtoJojeeFOZoq9Trz_jY",
+    "platform": "Win32",
+    "clientId": "clawdbot-control-ui",
+    "clientMode": "webchat",
+    "role": "operator",
+    "roles": [
+      "operator"
+    ],
+    "scopes": [
+      "operator.admin",
+      "operator.approvals",
+      "operator.pairing"
+    ],
+    "remoteIp": "127.0.0.1",
+    "tokens": {
+      "operator": {
+        "token": "f52ca4f2add940778331f216015361b5",
+        "role": "operator",
+        "scopes": [
+          "operator.admin",
+          "operator.approvals",
+          "operator.pairing"
+        ],
+        "createdAtMs": 1770991168031,
+        "lastUsedAtMs": 1771763595992
+      }
+    },
+    "createdAtMs": 1770991168031,
+    "approvedAtMs": 1770991168031
+  },
+  "298880c1aae19c3fd27b8c31e79e76a219b0994dfcbfdaed2f615085adae46d5": {
+    "deviceId": "298880c1aae19c3fd27b8c31e79e76a219b0994dfcbfdaed2f615085adae46d5",
+    "publicKey": "dlIfNoZbmlLkJTM2hLacPQ576O6XrKnJ5TN1pigV5wE",
+    "platform": "Win32",
+    "clientId": "clawdbot-control-ui",
+    "clientMode": "webchat",
+    "role": "operator",
+    "roles": [
+      "operator"
+    ],
+    "scopes": [
+      "operator.admin",
+      "operator.approvals",
+      "operator.pairing"
+    ],
+    "remoteIp": "127.0.0.1",
+    "tokens": {
+      "operator": {
+        "token": "5b4f7d8c27eb4528b0ba6aedc052d861",
+        "role": "operator",
+        "scopes": [
+          "operator.admin",
+          "operator.approvals",
+          "operator.pairing"
+        ],
+        "createdAtMs": 1771042382451,
+        "lastUsedAtMs": 1771059845328
+      }
+    },
+    "createdAtMs": 1771042382451,
+    "approvedAtMs": 1771042382451
+  },
+  "c381c113acaca05e6fdb852db7cdb51c8aa2202f4c6180cbc1a507ded1c02ed0": {
+    "deviceId": "c381c113acaca05e6fdb852db7cdb51c8aa2202f4c6180cbc1a507ded1c02ed0",
+    "publicKey": "FMyD1e-GHqLgYTZLcKcaj317AlzWYzCErfH3syPBTAI",
+    "platform": "Win32",
+    "clientId": "clawdbot-control-ui",
+    "clientMode": "webchat",
+    "role": "operator",
+    "roles": [
+      "operator"
+    ],
+    "scopes": [
+      "operator.admin",
+      "operator.approvals",
+      "operator.pairing"
+    ],
+    "remoteIp": "127.0.0.1",
+    "tokens": {
+      "operator": {
+        "token": "9bb19dd8ca364f1c9a783174963954b5",
+        "role": "operator",
+        "scopes": [
+          "operator.admin",
+          "operator.approvals",
+          "operator.pairing"
+        ],
+        "createdAtMs": 1771764497918,
+        "lastUsedAtMs": 1771764498804
+      }
+    },
+    "createdAtMs": 1771764497918,
+    "approvedAtMs": 1771764497918
+  }
+}

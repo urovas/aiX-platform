@@ -1,0 +1,22 @@
+接下来需要在GitHub上创建仓库并推送代码：
+1.
+在GitHub上创建新仓库：
+登录GitHub账户
+点击右上角的"+"号，选择"New repository"
+仓库名称：aiX-platform
+描述：aiX
+选择"Public"或"Private"
+不要勾选"Initialize this repository with a README"
+点击"Create repository"
+2.
+推送代码到GitHub： 在终端中执行以下命令： 
+Bash
+
+cd /home/xcc/aiX-platform
+git remote add origin https://github.com/your-username/aiX-platform.git
+git push -u origin master
+
+
+3.
+验证推送： 刷新GitHub仓库页面，确认代码已成功上传
+这样就完成了整个aiX-platform项目的GitHub备份。

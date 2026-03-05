@@ -1,0 +1,21 @@
+{
+  "carla": {
+    "host": "localhost",
+    "port": 2000,
+    "town": "Town05",
+    "timeout": 10.0,
+    "carla_path": "/home/xcc/UROVAs/close_loop/SparseDrive_MomAD/CARLA",
+    "python_api_path": "/home/xcc/UROVAs/close_loop/SparseDrive_MomAD/CARLA/PythonAPI"
+  },
+  "simulation": {
+    "max_duration": 30,
+    "tick_rate": 0.05,
+    "enable_collision_sensor": true,
+    "enable_spectator": true
+  },
+  "recording": {
+    "save_trajectory": true,
+    "save_images": false,
+    "images_interval": 1.0
+  }
+}

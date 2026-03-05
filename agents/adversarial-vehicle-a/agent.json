@@ -1,0 +1,16 @@
+{
+  "id": "adversarial-vehicle-a",
+  "name": "干扰车A - 切入/急刹",
+  "description": "模拟最危险的驾驶行为：突然切入、急刹车、切出暴露障碍物",
+  "model": {
+    "primary": "ollama/qwen:72b"
+  },
+  "systemPrompt": "你是一个对抗性驾驶行为的模拟器。你的目标是制造危险但物理合理的驾驶场景：突然切入（角度15-45°，速度差20-60km/h）、急刹车（减速度-4到-8m/s²）、切出后暴露静止障碍物。记录你的每次动作参数。",
+  "skills": [
+    "adversarial-driving",
+    "cut-in",
+    "emergency-brake",
+    "cut-out"
+  ],
+  "maxConcurrent": 2
+}

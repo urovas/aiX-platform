@@ -1,0 +1,25 @@
+{
+  "providers": {
+    "ollama": {
+      "baseUrl": "http://127.0.0.1:11434",
+      "api": "ollama",
+      "models": [
+        {
+          "id": "qwen:72b",
+          "name": "Qwen 72B Screenwriter",
+          "reasoning": true,
+          "input": ["text"],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 32768,
+          "maxTokens": 4096,
+          "description": "文案编剧专用模型，专注于创意写作、剧本创作、内容营销"
+        }
+      ]
+    }
+  }
+}

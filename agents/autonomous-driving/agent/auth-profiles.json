@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "profiles": {
+    "qwen-portal:default": {
+      "type": "oauth",
+      "provider": "qwen-portal",
+      "access": "Hzz8HcfXJdpIQIT-Ww2mRCMydt-Hrcz7ypXbgBJV1YJj13lDJRql_Q3REiLrCRrKWhnW3rif-5G_rmGrDNuQyg",
+      "refresh": "I5aKvgMp7-PkA11bykqjcgiUQXz91Ma-pl0ASe9HNArxXjaPXLbm11HBaYCxFJf4yPkIKGLRs-HTA1G2Wsn-SA",
+      "expires": 1771062225116
+    }
+  },
+  "lastGood": {
+    "qwen-portal": "qwen-portal:default"
+  },
+  "usageStats": {
+    "qwen-portal:default": {
+      "lastUsed": 1771042689850,
+      "errorCount": 0,
+      "lastFailureAt": 1771042689839
+    }
+  }
+}

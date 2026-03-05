@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>无保护左转场景 - AutoExam</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .navbar-brand {
+            color: #fff !important;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .nav-link {
+            color: #fff !important;
+            transition: all 0.3s;
+        }
+        .nav-link:hover {
+            color: #ffd700 !important;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15);
+        }
+        .card-header {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            font-weight: bold;
+            border-radius: 10px 10px 0 0 !important;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            border: none;
+            border-radius: 25px;
+            padding: 10px 30px;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9 0%, #1f5f8b 100%);
+            transform: translateY(-1px);
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%);
+            border: none;
+            border-radius: 25px;
+        }
+        .btn-warning {
+            background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);
+            border: none;
+            border-radius: 25px;
+            color: white;
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            border: none;
+            border-radius: 25px;
+        }
+        .stats-card {
+            text-align: center;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+        }
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .stats-label {
+            color: #7f8c8d;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+        .difficulty-easy { color: #27ae60; }
+        .difficulty-medium { color: #f39c12; }
+        .difficulty-hard { color: #e74c3c; }
+        .difficulty-extreme { color: #8e44ad; }
+        .difficulty-adversarial { color: #c0392b; font-weight: bold; }
+        .progress {
+            height: 25px;
+            margin-bottom: 10px;
+            border-radius: 15px;
+        }
+        .table th {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+        }
+        .alert {
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+        .nav-pills .nav-link {
+            color: #495057 !important;
+            background-color: #e9ecef;
+            margin-right: 10px;
+            border-radius: 25px;
+            padding: 10px 25px;
+        }
+        .nav-pills .nav-link.active {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white !important;
+        }
+        .parameter-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .parameter-label {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        .parameter-value {
+            color: #3498db;
+            font-size: 1.1rem;
+        }
+        .mode-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+        .mode-quick { background: #d4edda; color: #155724; }
+        .mode-nlp { background: #fff3cd; color: #856404; }
+        .mode-adversarial { background: #f8d7da; color: #721c24; }
+        .iteration-card {
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+            margin-bottom: 15px;
+        }
+        .risk-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin: 2px;
+        }
+        .risk-high { background: #f8d7da; color: #721c24; }
+        .risk-medium { background: #fff3cd; color: #856404; }
+        .risk-low { background: #d4edda; color: #155724; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/"><i class="bi bi-shield-check"></i> AutoExam</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="bi bi-house"></i> 首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/scenarios"><i class="bi bi-collection"></i> 场景管理</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/results"><i class="bi bi-graph-up"></i> 测试结果</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/unprotected_left_turn"><i class="bi bi-arrow-left-circle"></i> 无保护左转</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="mb-0"><i class="bi bi-arrow-left-circle"></i> 无保护左转场景管理</h1>
+            <span class="badge bg-primary fs-6">8参数维度</span>
+        </div>
+        
+        <!-- 统计信息 -->
+        <div class="row mb-4">
+            <div class="col-md-2">
+                <div class="card stats-card">
+                    <div class="stats-number" id="totalScenarios">0</div>
+                    <div class="stats-label">总场景数</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card stats-card">
+                    <div class="stats-number difficulty-easy" id="easyScenarios">0</div>
+                    <div class="stats-label">简单</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card stats-card">
+                    <div class="stats-number difficulty-medium" id="mediumScenarios">0</div>
+                    <div class="stats-label">中等</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card stats-card">
+                    <div class="stats-number difficulty-hard" id="hardScenarios">0</div>
+                    <div class="stats-label">困难</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card stats-card">
+                    <div class="stats-number difficulty-extreme" id="extremeScenarios">0</div>
+                    <div class="stats-label">地狱</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="card stats-card">
+                    <div class="stats-number difficulty-adversarial" id="adversarialScenarios">0</div>
+                    <div class="stats-label">对抗性</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 生成模式选择 -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="bi bi-lightning-charge"></i> 选择生成模式
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-pills mb-3" id="generationTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="quick-tab" data-bs-toggle="pill" data-bs-target="#quick" type="button">
+                            <i class="bi bi-lightning"></i> 快速生成
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="nlp-tab" data-bs-toggle="pill" data-bs-target="#nlp" type="button">
+                            <i class="bi bi-chat-dots"></i> 自然语言
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="adversarial-tab" data-bs-toggle="pill" data-bs-target="#adversarial" type="button">
+                            <i class="bi bi-bullseye"></i> 对抗性生成
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="generationTabContent">
+                    <!-- 快速生成 -->
+                    <div class="tab-pane fade show active" id="quick" role="tabpanel">
+                        <form id="quickGenerateForm">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label for="quickCount" class="form-label">生成数量</label>
+                                        <input type="number" class="form-control" id="quickCount" value="10" min="1" max="500">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label for="quickDifficulty" class="form-label">难度等级</label>
+                                        <select class="form-select" id="quickDifficulty">
+                                            <option value="easy">简单</option>
+                                            <option value="medium" selected>中等</option>
+                                            <option value="hard">困难</option>
+                                            <option value="extreme">地狱</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label for="quickWeather" class="form-label">天气条件</label>
+                                        <select class="form-select" id="quickWeather">
+                                            <option value="">随机</option>
+                                            <option value="clear">晴天</option>
+                                            <option value="rain">雨天</option>
+                                            <option value="fog">雾天</option>
+                                            <option value="night">夜间</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label class="form-label">&nbsp;</label>
+                                        <button type="submit" class="btn btn-primary w-100">
+                                            <i class="bi bi-lightning"></i> 开始生成
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- 自然语言 -->
+                    <div class="tab-pane fade" id="nlp" role="tabpanel">
+                        <form id="nlpGenerateForm">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="mb-3">
+                                        <label for="nlpPrompt" class="form-label">自然语言描述</label>
+                                        <input type="text" class="form-control" id="nlpPrompt" 
+                                               placeholder="例如：生成100个雨天卡车遮挡高流量场景">
+                                        <div class="form-text">
+                                            支持描述：数量、天气、车型、遮挡、流量、行人等
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label class="form-label">&nbsp;</label>
+                                        <button type="submit" class="btn btn-warning w-100">
+                                            <i class="bi bi-magic"></i> 智能生成
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <small class="text-muted">
+                                        <strong>示例：</strong>
+                                        <span class="badge bg-light text-dark me-2">生成50个雾天困难场景</span>
+                                        <span class="badge bg-light text-dark me-2">生成20个夜间公交车遮挡场景</span>
+                                        <span class="badge bg-light text-dark me-2">生成100个高流量有行人场景</span>
+                                    </small>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- 对抗性生成 -->
+                    <div class="tab-pane fade" id="adversarial" role="tabpanel">
+                        <div class="alert alert-info">
+                            <i class="bi bi-info-circle"></i> 
+                            <strong>对抗性生成</strong>：智能发现Apollo系统的"攻击面"。系统会自动分析失败案例，在高危参数空间内密集采样。
+                        </div>
+                        <form id="adversarialForm">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label for="advInitialCount" class="form-label">初始场景数</label>
+                                        <input type="number" class="form-control" id="advInitialCount" value="100" min="50" max="500">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label for="advIterations" class="form-label">迭代次数</label>
+                                        <select class="form-select" id="advIterations">
+                                            <option value="2">2轮</option>
+                                            <option value="3" selected>3轮</option>
+                                            <option value="5">5轮</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label for="advExecutor" class="form-label">执行方式</label>
+                                        <select class="form-select" id="advExecutor">
+                                            <option value="simulate">模拟执行（快速）</option>
+                                            <option value="carla">CARLA仿真（真实）</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label class="form-label">&nbsp;</label>
+                                        <button type="submit" class="btn btn-danger w-100">
+                                            <i class="bi bi-bullseye"></i> 开始对抗
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <!-- 对抗性生成进度 -->
+                        <div id="adversarialProgress" class="mt-3" style="display: none;">
+                            <h6>迭代进度</h6>
+                            <div id="iterationStatus"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8参数维度说明 -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="bi bi-grid-3x3-gap"></i> 8个参数维度
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="parameter-card">
+                            <div class="parameter-label">1. 自车速度</div>
+                            <div class="parameter-value">5-30 km/h</div>
+                            <small class="text-muted">接近路口的速度</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="parameter-card">
+                            <div class="parameter-label">2. 对向车速</div>
+                            <div class="parameter-value">30-80 km/h</div>
+                            <small class="text-muted">对向直行车的速度</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="parameter-card">
+                            <div class="parameter-label">3. 时间间隙</div>
+                            <div class="parameter-value">2-8 秒</div>
+                            <small class="text-muted">到达冲突点的时间差</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="parameter-card">
+                            <div class="parameter-label">4. 对向车型</div>
+                            <div class="parameter-value">轿车/卡车/公交</div>
+                            <small class="text-muted">影响博弈行为</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="parameter-card">
+                            <div class="parameter-label">5. 天气</div>
+                            <div class="parameter-value">晴/雨/雾/夜</div>
+                            <small class="text-muted">影响感知难度</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="parameter-card">
+                            <div class="parameter-label">6. 视野遮挡</div>
+                            <div class="parameter-value">有/无</div>
+                            <small class="text-muted">大车遮挡小车</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="parameter-card">
+                            <div class="parameter-label">7. 交通流量</div>
+                            <div class="parameter-value">低/中/高</div>
+                            <small class="text-muted">多车道车流</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="parameter-card">
+                            <div class="parameter-label">8. 行人/非机动车</div>
+                            <div class="parameter-value">有/无</div>
+                            <small class="text-muted">增加复杂度</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 场景列表 -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-list-ul"></i> 场景列表</span>
+                <div>
+                    <button class="btn btn-sm btn-success" onclick="batchTest()">
+                        <i class="bi bi-play-fill"></i> 批量测试
+                    </button>
+                    <button class="btn btn-sm btn-primary" onclick="exportSelected()">
+                        <i class="bi bi-download"></i> 导出选中
+                    </button>
+                    <button class="btn btn-sm btn-info" onclick="generateReport()">
+                        <i class="bi bi-file-text"></i> 生成报告
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="scenariosTable">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selectAll"></th>
+                                <th>ID</th>
+                                <th>描述</th>
+                                <th>难度</th>
+                                <th>天气</th>
+                                <th>车型</th>
+                                <th>间隙</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="scenariosTableBody">
+                            <!-- 动态加载 -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="emptyMessage" class="text-center text-muted py-5">
+                    <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                    <p class="mt-3">暂无场景，请使用上方表单生成</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 生成进度模态框 -->
+    <div class="modal fade" id="progressModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-gear-spin"></i> 生成中...</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                             role="progressbar" style="width: 0%" id="progressBar"></div>
+                    </div>
+                    <p class="text-center mt-3" id="progressText">准备生成...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 场景详情模态框 -->
+    <div class="modal fade" id="scenarioModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">场景详情</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="scenarioDetails">
+                    <!-- 动态加载 -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="testScenario()">执行测试</button>
+                    <button type="button" class="btn btn-success" onclick="exportScenario()">导出OpenSCENARIO</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            loadScenarios();
+            loadStatistics();
+            
+            // 绑定表单提交事件
+            document.getElementById('quickGenerateForm').addEventListener('submit', handleQuickGenerate);
+            document.getElementById('nlpGenerateForm').addEventListener('submit', handleNLPGenerate);
+            document.getElementById('adversarialForm').addEventListener('submit', handleAdversarialGenerate);
+        });
+
+        // 加载场景列表
+        function loadScenarios() {
+            fetch('/api/unprotected_left_turn/scenarios')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.scenarios && data.scenarios.length > 0) {
+                        renderScenarios(data.scenarios);
+                        document.getElementById('emptyMessage').style.display = 'none';
+                    } else {
+                        document.getElementById('emptyMessage').style.display = 'block';
+                    }
+                })
+                .catch(error => console.error('加载场景失败:', error));
+        }
+
+        // 加载统计数据
+        function loadStatistics() {
+            fetch('/api/unprotected_left_turn/statistics')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('totalScenarios').textContent = data.total || 0;
+                    document.getElementById('easyScenarios').textContent = data.easy || 0;
+                    document.getElementById('mediumScenarios').textContent = data.medium || 0;
+                    document.getElementById('hardScenarios').textContent = data.hard || 0;
+                    document.getElementById('extremeScenarios').textContent = data.extreme || 0;
+                    document.getElementById('adversarialScenarios').textContent = data.adversarial || 0;
+                })
+                .catch(error => console.error('加载统计失败:', error));
+        }
+
+        // 渲染场景列表
+        function renderScenarios(scenarios) {
+            const tbody = document.getElementById('scenariosTableBody');
+            tbody.innerHTML = '';
+            
+            scenarios.forEach(scenario => {
+                const row = document.createElement('tr');
+                const difficultyClass = `difficulty-${scenario.difficulty}`;
+                const statusBadge = scenario.tested ? 
+                    (scenario.success ? '<span class="badge bg-success">成功</span>' : '<span class="badge bg-danger">失败</span>') :
+                    '<span class="badge bg-secondary">未测试</span>';
+                
+                row.innerHTML = `
+                    <td><input type="checkbox" class="scenario-checkbox" value="${scenario.id}"></td>
+                    <td>${scenario.id.substring(0, 20)}...</td>
+                    <td>${scenario.description.substring(0, 30)}...</td>
+                    <td><span class="${difficultyClass}">${scenario.difficulty}</span></td>
+                    <td>${scenario.weather}</td>
+                    <td>${scenario.vehicle_type}</td>
+                    <td>${scenario.gap_time}s</td>
+                    <td>${statusBadge}</td>
+                    <td>
+                        <button class="btn btn-sm btn-info" onclick="viewScenario('${scenario.id}')">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-primary" onclick="testScenario('${scenario.id}')">
+                            <i class="bi bi-play"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // 快速生成
+        function handleQuickGenerate(e) {
+            e.preventDefault();
+            const count = document.getElementById('quickCount').value;
+            const difficulty = document.getElementById('quickDifficulty').value;
+            const weather = document.getElementById('quickWeather').value;
+            
+            showProgress();
+            
+            fetch('/api/unprotected_left_turn/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ count: parseInt(count), difficulty, weather })
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideProgress();
+                if (data.success) {
+                    alert(`成功生成 ${data.count} 个场景！`);
+                    loadScenarios();
+                    loadStatistics();
+                } else {
+                    alert('生成失败: ' + data.error);
+                }
+            })
+            .catch(error => {
+                hideProgress();
+                alert('生成失败: ' + error);
+            });
+        }
+
+        // 自然语言生成
+        function handleNLPGenerate(e) {
+            e.preventDefault();
+            const prompt = document.getElementById('nlpPrompt').value;
+            
+            if (!prompt) {
+                alert('请输入自然语言描述');
+                return;
+            }
+            
+            showProgress();
+            
+            fetch('/api/unprotected_left_turn/generate_from_natural_language', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt })
+            })
+            .then(response => response.json())
+            .then(data => {
+                hideProgress();
+                if (data.success) {
+                    alert(`成功生成 ${data.count} 个场景！`);
+                    loadScenarios();
+                    loadStatistics();
+                } else {
+                    alert('生成失败: ' + data.error);
+                }
+            })
+            .catch(error => {
+                hideProgress();
+                alert('生成失败: ' + error);
+            });
+        }
+
+        // 对抗性生成
+        function handleAdversarialGenerate(e) {
+            e.preventDefault();
+            const initialCount = document.getElementById('advInitialCount').value;
+            const iterations = document.getElementById('advIterations').value;
+            const executor = document.getElementById('advExecutor').value;
+            
+            if (!confirm(`将开始对抗性生成：\n初始场景数: ${initialCount}\n迭代次数: ${iterations}\n\n这可能需要较长时间，是否继续？`)) {
+                return;
+            }
+            
+            document.getElementById('adversarialProgress').style.display = 'block';
+            document.getElementById('iterationStatus').innerHTML = '<p>正在初始化...</p>';
+            
+            fetch('/api/unprotected_left_turn/adversarial_generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    initial_count: parseInt(initialCount),
+                    iterations: parseInt(iterations),
+                    executor: executor
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('iterationStatus').innerHTML = `
+                        <div class="alert alert-success">
+                            <h6>对抗性生成完成！</h6>
+                            <p>总场景数: ${data.total_scenarios}</p>
+                            <p>总失败数: ${data.total_failures}</p>
+                            <p>高危参数组合: ${data.high_risk_count} 个</p>
+                        </div>
+                    `;
+                    loadScenarios();
+                    loadStatistics();
+                } else {
+                    document.getElementById('iterationStatus').innerHTML = `
+                        <div class="alert alert-danger">生成失败: ${data.error}</div>
+                    `;
+                }
+            })
+            .catch(error => {
+                document.getElementById('iterationStatus').innerHTML = `
+                    <div class="alert alert-danger">生成失败: ${error}</div>
+                `;
+            });
+        }
+
+        // 显示进度
+        function showProgress() {
+            const modal = new bootstrap.Modal(document.getElementById('progressModal'));
+            modal.show();
+            updateProgress(0);
+        }
+
+        // 隐藏进度
+        function hideProgress() {
+            const modal = bootstrap.Modal.getInstance(document.getElementById('progressModal'));
+            if (modal) modal.hide();
+        }
+
+        // 更新进度
+        function updateProgress(percent) {
+            document.getElementById('progressBar').style.width = percent + '%';
+            document.getElementById('progressText').textContent = `已完成 ${percent}%`;
+        }
+
+        // 查看场景详情
+        function viewScenario(id) {
+            fetch(`/api/unprotected_left_turn/scenario/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        renderScenarioDetails(data.scenario);
+                        const modal = new bootstrap.Modal(document.getElementById('scenarioModal'));
+                        modal.show();
+                    }
+                })
+                .catch(error => console.error('加载场景详情失败:', error));
+        }
+
+        // 渲染场景详情
+        function renderScenarioDetails(scenario) {
+            const container = document.getElementById('scenarioDetails');
+            const params = scenario.parameters;
+            
+            container.innerHTML = `
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>基本信息</h6>
+                        <table class="table table-sm">
+                            <tr><td>ID</td><td>${scenario.id}</td></tr>
+                            <tr><td>类型</td><td>${scenario.type}</td></tr>
+                            <tr><td>难度</td><td><span class="difficulty-${scenario.difficulty}">${scenario.difficulty}</span></td></tr>
+                            <tr><td>创建时间</td><td>${scenario.created_at}</td></tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>环境参数</h6>
+                        <table class="table table-sm">
+                            <tr><td>天气</td><td>${params.weather}</td></tr>
+                            <tr><td>能见度</td><td>${params.visibility}m</td></tr>
+                            <tr><td>道路宽度</td><td>${params.road_width}m</td></tr>
+                            <tr><td>交通流量</td><td>${params.traffic_flow}</td></tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <h6>8参数维度</h6>
+                        <div class="row">
+                            <div class="col-md-3"><strong>自车速度:</strong> ${params.ego_speed} km/h</div>
+                            <div class="col-md-3"><strong>对向车速:</strong> ${params.oncoming_speed} km/h</div>
+                            <div class="col-md-3"><strong>时间间隙:</strong> ${params.gap_time} s</div>
+                            <div class="col-md-3"><strong>对向车型:</strong> ${params.oncoming_vehicle_type}</div>
+                            <div class="col-md-3"><strong>天气:</strong> ${params.weather}</div>
+                            <div class="col-md-3"><strong>视野遮挡:</strong> ${params.view_blocked ? '有' : '无'}</div>
+                            <div class="col-md-3"><strong>交通流量:</strong> ${params.traffic_flow}</div>
+                            <div class="col-md-3"><strong>行人:</strong> ${params.pedestrian_present ? '有' : '无'}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-12">
+                        <h6>场景描述</h6>
+                        <p>${scenario.description}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 测试场景
+        function testScenario(id) {
+            alert('开始测试场景: ' + id);
+            // 实现测试逻辑
+        }
+
+        // 导出场景
+        function exportScenario(id) {
+            fetch(`/api/unprotected_left_turn/export/${id}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('导出成功: ' + data.file_path);
+                    } else {
+                        alert('导出失败: ' + data.error);
+                    }
+                })
+                .catch(error => alert('导出失败: ' + error));
+        }
+
+        // 批量测试
+        function batchTest() {
+            const checkboxes = document.querySelectorAll('.scenario-checkbox:checked');
+            if (checkboxes.length === 0) {
+                alert('请先选择要测试的场景');
+                return;
+            }
+            alert('开始批量测试 ' + checkboxes.length + ' 个场景');
+        }
+
+        // 导出选中
+        function exportSelected() {
+            const checkboxes = document.querySelectorAll('.scenario-checkbox:checked');
+            if (checkboxes.length === 0) {
+                alert('请先选择要导出的场景');
+                return;
+            }
+            alert('导出 ' + checkboxes.length + ' 个场景');
+        }
+
+        // 生成报告
+        function generateReport() {
+            if (!confirm('生成测试报告可能需要较长时间，是否继续？')) {
+                return;
+            }
+            fetch('/api/unprotected_left_turn/generate_report', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('报告生成成功: ' + data.report_path);
+                    } else {
+                        alert('报告生成失败: ' + data.error);
+                    }
+                })
+                .catch(error => alert('报告生成失败: ' + error));
+        }
+
+        // 全选/全不选
+        document.getElementById('selectAll')?.addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('.scenario-checkbox');
+            checkboxes.forEach(cb => cb.checked = this.checked);
+        });
+    </script>
+</body>
+</html>

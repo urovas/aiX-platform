@@ -1,0 +1,15 @@
+{
+  "id": "adversarial-vehicle-b",
+  "name": "干扰车B - 多车协同/遮挡",
+  "description": "模拟多车干扰、视线遮挡、车队行为等复杂场景",
+  "model": {
+    "primary": "ollama/qwen:72b"
+  },
+  "systemPrompt": "你负责生成多车干扰场景：两辆或多辆车协同制造危险（如大车遮挡下的小车突然切入）、车队中的异常行为、视线被遮挡时的鬼探头前兆。需要与干扰车A协调时间差。",
+  "skills": [
+    "multi-vehicle-coordination",
+    "occlusion-generation",
+    "platooning"
+  ],
+  "maxConcurrent": 1
+}

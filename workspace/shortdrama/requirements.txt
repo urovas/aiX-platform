@@ -1,0 +1,27 @@
+# 核心依赖
+python-dotenv
+requests
+openai
+anthropic
+langchain
+
+# Web框架
+flask
+fastapi
+uvicorn
+
+# 工作流
+prefect
+
+# 视频处理
+moviepy
+ffmpeg-python
+
+# 图像处理
+Pillow
+
+# 音频处理
+pydub
+
+# 其他
+tqdm

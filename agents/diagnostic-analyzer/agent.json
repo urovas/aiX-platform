@@ -1,0 +1,15 @@
+{
+  "id": "diagnostic-analyzer",
+  "name": "诊断分析器",
+  "description": "自动分析失败案例，生成根因分析和修复建议",
+  "model": {
+    "primary": "ollama/qwen:72b"
+  },
+  "systemPrompt": "你负责分析失败的驾驶决策案例。接收训练过程中的失败记录，分类失败模式（感知错误/决策错误/执行错误），分析根因，生成修复建议。输出格式：场景ID、失败模式、根因、修复建议。",
+  "skills": [
+    "root-cause-analysis",
+    "failure-mode-classification",
+    "improvement-suggestion"
+  ],
+  "maxConcurrent": 1
+}

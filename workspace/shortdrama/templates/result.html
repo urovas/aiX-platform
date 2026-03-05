@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>凤凰其领 PhoenixKeylin AI 短剧创作系统 V2.0 - 生成结果</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        h2 {
+            color: #555;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .info {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .file-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .file-item {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            flex: 1 1 300px;
+        }
+        .final-video {
+            background-color: #e8f5e8;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .back-button {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .back-button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>凤凰其领 PhoenixKeylin AI 短剧创作系统 V2.0 - 生成结果</h1>
+        
+        <div class="info">
+            <h2>生成参数</h2>
+            <p><strong>主题：</strong>{{ topic }}</p>
+            <p><strong>类型：</strong>{{ genre }}</p>
+            <p><strong>时长：</strong>{{ duration }}</p>
+            <p><strong>角色：</strong>{{ characters | join(', ') }}</p>
+            <p><strong>场景：</strong>{{ setting }}</p>
+        </div>
+        
+        <h2>生成文件</h2>
+        
+        <div>
+            <h3>剧本文件</h3>
+            <div class="file-list">
+                {% for file in script_files %}
+                <div class="file-item">
+                    {{ file }}
+                    <a href="/edit-script/{{ file }}" style="margin-left: 10px;">编辑</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        {% if script_content %}
+        <div>
+            <h3>剧本内容</h3>
+            <div class="script-content">
+                <h4>{{ script_content.title }}</h4>
+                <p><strong>类型：</strong>{{ script_content.genre }}</p>
+                <p><strong>时长：</strong>{{ script_content.duration }}</p>
+                <p><strong>场景：</strong>{{ script_content.setting }}</p>
+                <h4>角色：</h4>
+                <ul>
+                    {% for character in script_content.characters %}
+                    <li>{{ character.name }}</li>
+                    {% endfor %}
+                </ul>
+                <h4>场景：</h4>
+                {% for scene in script_content.scenes %}
+                <div style="margin-top: 20px;">
+                    <h5>场景 {{ loop.index }} - {{ scene.setting }}</h5>
+                    <div style="margin-left: 20px;">
+                        {% for dialogue in scene.dialogues %}
+                        <p><strong>{{ dialogue.character }}：</strong>{{ dialogue.text }}</p>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        
+        <div>
+            <h3>角色形象</h3>
+            <div class="file-list">
+                {% for file in character_files %}
+                <div class="file-item">{{ file }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div>
+            <h3>场景背景</h3>
+            <div class="file-list">
+                {% for file in scene_files %}
+                <div class="file-item">{{ file }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div>
+            <h3>音频文件</h3>
+            <div class="file-list">
+                {% for file in audio_files %}
+                <div class="file-item">{{ file }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div>
+            <h3>视频片段</h3>
+            <div class="file-list">
+                {% for file in video_files %}
+                <div class="file-item">{{ file }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="final-video">
+            <h3>最终视频</h3>
+            <p><strong>文件路径：</strong>{{ final_video_path }}</p>
+            <p>视频已生成完成，您可以在上述路径找到最终的短剧作品。</p>
+        </div>
+        
+        <button class="back-button" onclick="window.location.href='/'">返回首页</button>
+    </div>
+</body>
+</html>

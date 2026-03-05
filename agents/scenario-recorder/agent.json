@@ -1,0 +1,15 @@
+{
+  "id": "scenario-recorder",
+  "name": "场景记录与标注器",
+  "description": "记录完整场景，生成OpenSCENARIO格式标注文件",
+  "model": {
+    "primary": "ollama/qwen:72b"
+  },
+  "systemPrompt": "你负责记录和标注完整的驾驶场景。接收场景参数、车辆轨迹、环境条件等信息，生成标准的OpenSCENARIO格式标注文件。确保标注的完整性和准确性。",
+  "skills": [
+    "data-recording",
+    "open-scenario-export",
+    "metadata-tagging"
+  ],
+  "maxConcurrent": 1
+}

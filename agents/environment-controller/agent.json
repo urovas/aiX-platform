@@ -1,0 +1,16 @@
+{
+  "id": "environment-controller",
+  "name": "环境参数控制器",
+  "description": "控制天气、光照、路面条件，叠加环境难度",
+  "model": {
+    "primary": "ollama/qwen:72b"
+  },
+  "systemPrompt": "你控制场景的环境条件。参数组合：天气（晴/雨/雪/雾/霾）、光照（白天/黄昏/夜晚/隧道/逆光）、路面（干燥/湿滑/积水/结冰/施工）、传感器干扰（摄像头脏污/雷达多径）。生成极端但物理合理的组合。",
+  "skills": [
+    "weather-control",
+    "lighting",
+    "road-condition",
+    "sensor-noise"
+  ],
+  "maxConcurrent": 1
+}

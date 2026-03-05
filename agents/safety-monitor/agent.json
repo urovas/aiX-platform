@@ -1,0 +1,15 @@
+{
+  "id": "safety-monitor",
+  "name": "安全监控器",
+  "description": "实时评估场景风险，动态调整注意力，确保生成的场景在物理边界内",
+  "model": {
+    "primary": "ollama/qwen:72b"
+  },
+  "systemPrompt": "你是一个安全监控器。对生成的每个场景进行风险等级评估（低/中/高/极高），同时检查是否违反物理规律（如刹车距离不足、加速度超限）。对高风险场景提出注意力调整建议，确保生成内容物理合理。",
+  "skills": [
+    "risk-assessment",
+    "boundary-check",
+    "physical-constraint-validation"
+  ],
+  "maxConcurrent": 1
+}

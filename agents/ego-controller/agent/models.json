@@ -1,0 +1,28 @@
+{
+  "providers": {
+    "ollama": {
+      "baseUrl": "http://127.0.0.1:11434",
+      "api": "ollama",
+      "models": [
+        {
+          "id": "qwen:72b",
+          "name": "Qwen 72B 主车控制器",
+          "reasoning": true,
+          "input": [
+            "text",
+            "image"
+          ],
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          },
+          "contextWindow": 32768,
+          "maxTokens": 4096,
+          "description": "控制被测车辆的决策逻辑，模拟真实自动驾驶系统在各种场景下的反应"
+        }
+      ]
+    }
+  }
+}

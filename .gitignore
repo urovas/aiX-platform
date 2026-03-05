@@ -1,0 +1,169 @@
+# 忽略Python字节码
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 忽略编译生成的文件
+build/
+dist/
+*.egg-info/
+
+# 忽略环境文件
+venv/
+env/
+
+# 忽略配置文件和敏感信息
+*.env
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# 忽略日志文件
+*.log
+logs/
+
+# 忽略编辑器配置
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 忽略系统文件
+.DS_Store
+Thumbs.db
+
+# 忽略输出和缓存目录
+output/
+temp/
+cache/
+
+# 忽略数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 忽略大型文件
+*.zip
+*.tar.gz
+*.rar
+
+# 忽略视频和音频文件
+*.mp4
+*.avi
+*.mov
+*.mp3
+*.wav
+
+# 忽略图像文件（如果不需要版本控制）
+# *.jpg
+# *.jpeg
+# *.png
+# *.gif
+
+# 忽略临时文件
+*.tmp
+*.temp
+
+# 忽略备份文件
+*.bak
+*.backup
+
+# 忽略测试输出
+.pytest_cache/
+.coverage
+htmlcov/
+
+# 忽略CI/CD配置
+.gitlab-ci.yml
+.travis.yml
+.github/
+
+# 忽略Docker相关文件
+Dockerfile
+.dockerignore
+
+# 忽略Kubernetes配置
+*.yaml
+*.yml
+
+# 忽略文档构建
+/docs/build/
+/_build/
+
+# 忽略本地开发配置
+local_settings.py
+
+# 忽略第三方库
+third-party/
+libs/
+
+# 忽略编辑器自动生成的文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 忽略系统生成的文件
+Thumbs.db
+.DS_Store
+
+# 忽略操作系统文件
+Thumbs.db
+.DS_Store
+
+# 忽略权限文件
+*.pem
+*.key
+*.crt
+
+# 忽略编译文件
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+
+# 忽略CMake文件
+CMakeCache.txt
+CMakeFiles/
+
+# 忽略Makefile
+Makefile
+Makefile.in
+
+# 忽略配置文件
+*.conf
+*.ini
+
+# 忽略数据库迁移文件
+migrations/
+
+# 忽略Celery节拍器数据库
+celerybeat-schedule
+
+# 忽略Redis快照
+*.rdb
+
+# 忽略MongoDB文件
+*.bson
+
+# 忽略Elasticsearch文件
+elasticsearch/
+
+# 忽略RabbitMQ文件
+rabbitmq/
+
+# 忽略PostgreSQL文件
+postgresql/
+
+# 忽略MySQL文件
+mysql/
+
+# 忽略SQLite文件
+*.sqlite
+*.sqlite3

@@ -1,0 +1,14 @@
+code,name,type,daily_count,minute_count,_15min_count,has_premium,success
+518800,黄金ETF,gold,273,0,0,False,True
+513050,中概互联ETF,cross_border,273,0,0,False,True
+518880,黄金ETF,gold,273,0,0,False,True
+159937,黄金ETF,gold,273,0,0,False,True
+513880,恒生ETF,cross_border,273,0,0,False,True
+513500,标普500ETF,cross_border,273,0,0,False,True
+513100,纳指ETF,cross_border,273,0,0,False,True
+513030,德国30ETF,cross_border,272,0,0,False,True
+518660,黄金ETF,gold,273,0,0,False,True
+511380,可转债ETF,bond,273,0,0,False,True
+511010,国债ETF,bond,273,0,0,False,True
+511030,国开ETF,bond,273,0,0,False,True
+511220,城投债ETF,bond,273,0,0,False,True

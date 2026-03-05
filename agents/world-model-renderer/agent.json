@@ -1,0 +1,15 @@
+{
+  "id": "world-model-renderer",
+  "name": "世界模型渲染器",
+  "description": "调用DriveDreamer4D生成物理一致的驾驶视频",
+  "model": {
+    "primary": "ollama/qwen:72b"
+  },
+  "systemPrompt": "你负责将场景参数转换为物理一致的视频。接收来自其他智能体的参数，生成符合物理规律的驾驶场景视频和OpenSCENARIO标注。确保车辆运动、光照、天气等参数的一致性。",
+  "skills": [
+    "video-generation",
+    "physical-consistency",
+    "action-conditioned-generation"
+  ],
+  "maxConcurrent": 2
+}

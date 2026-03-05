@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>凤凰其领 PhoenixKeylin AI 短剧创作系统 V2.0 - 编辑剧本</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        h2 {
+            color: #555;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        h3 {
+            color: #666;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        textarea {
+            height: 200px;
+            font-family: 'Courier New', monospace;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .scene {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .dialogue {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .back-button {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .back-button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>凤凰其领 PhoenixKeylin AI 短剧创作系统 V2.0 - 编辑剧本</h1>
+        
+        <form action="/update-script" method="post">
+            <input type="hidden" name="script_path" value="{{ script_path }}">
+            
+            <div class="form-group">
+                <label for="title">剧本标题</label>
+                <input type="text" id="title" name="title" value="{{ script_content.title }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="genre">剧本类型</label>
+                <input type="text" id="genre" name="genre" value="{{ script_content.genre }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="duration">剧本时长</label>
+                <input type="text" id="duration" name="duration" value="{{ script_content.duration }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="setting">场景设置</label>
+                <input type="text" id="setting" name="setting" value="{{ script_content.setting }}">
+            </div>
+            
+            <h2>角色</h2>
+            <div id="characters-list">
+                {% for character in script_content.characters %}
+                <div class="form-group">
+                    <input type="text" name="character" value="{{ character.name }}">
+                </div>
+                {% endfor %}
+            </div>
+            
+            <h2>场景</h2>
+            <div id="scenes-list">
+                {% for scene in script_content.scenes %}
+                {% set scene_index = loop.index %}
+                <div class="scene">
+                    <h3>场景 {{ scene_index }}</h3>
+                    <div class="form-group">
+                        <label for="scene-setting-{{ scene_index }}">场景设置</label>
+                        <input type="text" id="scene-setting-{{ scene_index }}" name="scene-setting-{{ scene_index }}" value="{{ scene.setting }}">
+                    </div>
+                    
+                    <h4>对话</h4>
+                    <div class="dialogues-list">
+                        {% for dialogue in scene.dialogues %}
+                        <div class="dialogue">
+                            <div class="form-group">
+                                <label for="dialogue-character-{{ scene_index }}-{{ loop.index }}">角色</label>
+                                <input type="text" id="dialogue-character-{{ scene_index }}-{{ loop.index }}" name="dialogue-character-{{ scene_index }}-{{ loop.index }}" value="{{ dialogue.character }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="dialogue-text-{{ scene_index }}-{{ loop.index }}">对话内容</label>
+                                <textarea id="dialogue-text-{{ scene_index }}-{{ loop.index }}" name="dialogue-text-{{ scene_index }}-{{ loop.index }}">{{ dialogue.text }}</textarea>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <input type="hidden" id="script-content" name="script_content">
+            
+            <button type="button" onclick="updateScriptContent()">更新剧本</button>
+            <button type="button" class="back-button" onclick="window.location.href='/'">返回首页</button>
+        </form>
+    </div>
+    
+    <script>
+        function updateScriptContent() {
+            // 获取基本信息
+            const title = document.getElementById('title').value;
+            const genre = document.getElementById('genre').value;
+            const duration = document.getElementById('duration').value;
+            const setting = document.getElementById('setting').value;
+            
+            // 获取角色
+            const characterInputs = document.querySelectorAll('input[name="character"]');
+            const characters = Array.from(characterInputs).map(input => ({
+                name: input.value
+            }));
+            
+            // 获取场景
+            const scenes = [];
+            const sceneElements = document.querySelectorAll('.scene');
+            sceneElements.forEach((sceneElement, sceneIndex) => {
+                const sceneSetting = sceneElement.querySelector(`input[name="scene-setting-${sceneIndex + 1}"]`).value;
+                const dialogueElements = sceneElement.querySelectorAll('.dialogue');
+                const dialogues = [];
+                
+                dialogueElements.forEach((dialogueElement, dialogueIndex) => {
+                    const character = dialogueElement.querySelector(`input[name="dialogue-character-${sceneIndex + 1}-${dialogueIndex + 1}"]`).value;
+                    const text = dialogueElement.querySelector(`textarea[name="dialogue-text-${sceneIndex + 1}-${dialogueIndex + 1}"]`).value;
+                    dialogues.push({ character, text });
+                });
+                
+                scenes.push({
+                    scene_id: `scene_${sceneIndex + 1}`,
+                    setting: sceneSetting,
+                    dialogues: dialogues
+                });
+            });
+            
+            // 构建剧本内容
+            const scriptContent = {
+                title: title,
+                genre: genre,
+                duration: duration,
+                setting: setting,
+                characters: characters,
+                scenes: scenes
+            };
+            
+            // 转换为JSON字符串
+            document.getElementById('script-content').value = JSON.stringify(scriptContent);
+            
+            // 提交表单
+            document.querySelector('form').submit();
+        }
+    </script>
+</body>
+</html>

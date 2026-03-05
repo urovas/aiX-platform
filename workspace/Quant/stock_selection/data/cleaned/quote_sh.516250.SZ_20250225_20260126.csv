@@ -1,0 +1,3 @@
+date,code,open,high,low,close,preclose,volume,amount,adjustflag,turn,tradestatus,pctChg,peTTM,pbMRQ,psTTM,pcfNcfTTM,ts_code,trade_date
+2026-01-15,sh.516250,1.051,1.058,1.046,1.049,1.049,12576800,13220830.0,3,11.878577,1,0.0,,,,,sh.516250.SZ,2026-01-15
+2026-01-26,sh.516250,1.106,1.132,1.105,1.108,1.106,10130800,11360501.0,3,11.271724,1,0.1808,,,,,sh.516250.SZ,2026-01-26

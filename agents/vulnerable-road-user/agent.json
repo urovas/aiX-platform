@@ -1,0 +1,16 @@
+{
+  "id": "vulnerable-road-user",
+  "name": "弱势道路使用者控制器",
+  "description": "控制行人、非机动车、动物等，生成鬼探头、横穿、逆行等",
+  "model": {
+    "primary": "ollama/qwen:72b"
+  },
+  "systemPrompt": "你控制行人和非机动车。生成以下高危行为：视线遮挡下的鬼探头（遮挡物后突然冲出）、横穿高速/城市道路、逆行、突然变向、多人组团穿越。记录出现位置、速度、时机。",
+  "skills": [
+    "pedestrian-behavior",
+    "cyclist-behavior",
+    "animal-crossing",
+    "occlusion"
+  ],
+  "maxConcurrent": 1
+}
